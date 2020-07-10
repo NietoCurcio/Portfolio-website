@@ -1,0 +1,119 @@
+.items {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
+}
+
+.item {
+  position: relative;
+  // because our children elements will be position absolute
+  background: $main-color;
+  overflow: hidden;
+
+  &:after {
+    // content: 'FELIPAO';
+    content: '';
+    position: absolute;
+    // position aboslute within your container, the item
+    display: block;
+    background: inherit;
+    // inhreit = take from the parent, the main color
+    opacity: 0.5;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    // Creating a overlay
+    transform: scale(2) translateX(-75%) translateY(-75%) rotate(-28deg);
+    // cubic change the speed up, the curves
+    transition: transform 3s cubic-bezier(0.2, 1, 0.3, 1);
+    // z-index: -1 or 1000; notice the overlay (:After or :before) comes after the
+    // image (above), is like set a color on top of the image (1 layer above)
+
+    // in the newsgrid, the image is in the :before, and if I change the opacity to 1, the image don't have any filter
+    // with the overlay color (that's #333 or orange for example), so the :before or after are one ground above the element itself (without after or before)
+    // Thus, the before and after setup we can change the opacity, because the element will be behind this pseudoselector, be the image or the color in the background.
+    // in the newsgrid is the image in the before, therefore the background is the color, in the edgeledger is the color in the :before, thus the image is in
+    // the background, like the portofolio as well, because we set the img in the background and the color in the :before
+
+    // therefore who is the :before is one layer above of z-index (control the opacity), and who not is, is the background
+  }
+
+  // Bring in main color overlay
+  &:hover:after {
+    // after is where our overlay is
+    transform: scale(2) translateX(0) translateY(0) rotate(-28deg);
+  }
+
+  // Scale image on hover
+  &:hover &-image {
+    transform: scale(1.2);
+  }
+
+  // Bring in text on hover
+  &:hover &-text {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &-image {
+    height: auto;
+    transform: translateZ(0);
+    // display: block;
+    // image is inline by default but is block even I put display: inline because it is inside a div
+    transition: transform 750ms cubic-bezier(0.2, 1, 0.3, 1);
+  }
+
+  &-image:before {
+    content: '';
+    display: block;
+    padding-top: 75%;
+    overflow: hidden;
+  }
+
+  &-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    line-height: 0;
+  }
+
+  &-text {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    align-items: center;
+    z-index: 1;
+    color: #fff;
+    transform: translateY(-20%);
+    transition: opacity 500ms cubic-bezier(0.2, 1, 0.3, 1),
+      transform 500ms cubic-bezier(0.2, 1, 0.3, 1);
+    transition-delay: 300ms;
+  }
+
+  &-text-wrap {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &-text-title {
+    font-size: 2rem;
+    padding: 0 1rem;
+    margin: 5px 0 0 0;
+  }
+
+  &-text-category {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.2rem;
+    opacity: 0.85;
+    margin: 0;
+  }
+}
